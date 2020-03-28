@@ -1,0 +1,24 @@
+{
+	"name": "e-commerce-app",
+	"version": "1.0.0",
+	"description": "An e-commerce web application",
+	"main": "index.js",
+	"scripts": {
+		"dev": "nodemon index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rzgholizadeh/e-commerce-app.git"
+	},
+	"keywords": [],
+	"author": "Reza",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/rzgholizadeh/e-commerce-app/issues"
+	},
+	"homepage": "https://github.com/rzgholizadeh/e-commerce-app#readme",
+	"dependencies": {
+		"express": "^4.17.1",
+		"nodemon": "^2.0.2"
+	}
+}
