@@ -36,10 +36,6 @@ class UsersRepository {
 		);
 	}
 
-	randomId() {
-		return crypto.randomBytes(4).toString("hex");
-	}
-
 	async getOne(id) {
 		const records = await this.getAll();
 		return records.find(record => record.id === id);
@@ -75,28 +71,14 @@ class UsersRepository {
 			}
 		}
 	}
+
+	randomId() {
+		return crypto.randomBytes(4).toString("hex");
+	}
 }
 
-// test
-const test = async () => {
-	const repo = new UsersRepository("users.json");
+// export the class
+// module.exports = UsersRepository;
 
-	//await repo.create({ email: "test@test.com", password: "testPass" });
-
-	//const users = await repo.getAll();
-
-	//const user = await repo.getOne("c39f5f69");
-
-	//console.log(user);
-
-	//await repo.delete("1d69f2a1");
-
-	//await repo.update("7f1c2052", { password: "Changed!!!" });
-    
-    //const user = await repo.getOneBy({ password: "Changed!!!" });
-    //console.log(user);
-    
-    
-};
-
-test();
+// export the instance
+module.exports = new UsersRepository("users.json");
