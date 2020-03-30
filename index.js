@@ -61,7 +61,16 @@ app.get("/signin", (req, res) => {
 });
 
 app.post("/signin", async (req, res) => {
-    
+	const { email, password } = req.body;
+	const user = await usersRepo.getOneBy({ email, password });
+	if (!user) {
+		return res.send("Email not found");
+	}
+	if (user.password !== password) {
+		return res.send("Invalid password");
+	}
+	req.session.userId = user.id;
+	res.send("Signed in");
 });
 
 app.listen(7000, () => {
