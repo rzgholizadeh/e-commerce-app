@@ -28,7 +28,11 @@ app.post("/", async (req, res) => {
 	}
 	if (password !== passwordConfirmation) {
 		return res.send("Passwrods must match");
-    }
+	}
+
+    const user = await usersRepo.create({ email, password });
+    
+
 	res.send("Account created.");
 });
 
