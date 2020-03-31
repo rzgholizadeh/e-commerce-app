@@ -18,7 +18,9 @@
 	},
 	"homepage": "https://github.com/rzgholizadeh/e-commerce-app#readme",
 	"dependencies": {
+		"cookie-session": "^1.4.0",
 		"express": "^4.17.1",
+		"express-validator": "^6.4.0",
 		"nodemon": "^2.0.2"
 	}
 }
