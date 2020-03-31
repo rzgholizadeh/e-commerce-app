@@ -7,7 +7,9 @@ const signinTemplate = require("../../views/admin/auth/signin");
 const {
 	requireEmail,
 	requirePassword,
-	requirePasswordConfirmation
+	requirePasswordConfirmation,
+	requireEmailExists,
+	requireValidPasswordForUser
 } = require("./validators");
 
 const router = express.Router();
@@ -22,9 +24,10 @@ router.post(
 	async (req, res) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
+			console.log(errors);
 			return res.send(signupTemplate({ req, errors }));
 		}
-		const { email, password, passwordConfirmation } = req.body;
+		const { email, password } = req.body;
 		const user = await usersRepo.create({ email, password });
 		req.session.userId = user.id;
 		res.send("Account created.");
@@ -37,24 +40,22 @@ router.get("/signout", (req, res) => {
 });
 
 router.get("/signin", (req, res) => {
-	res.send(signinTemplate());
+	res.send(signinTemplate({}));
 });
 
-router.post("/signin", async (req, res) => {
-	const { email, password } = req.body;
-	const user = await usersRepo.getOneBy({ email });
-	if (!user) {
-		return res.send("Email not found");
+router.post(
+	"/signin",
+	[requireEmailExists, requireValidPasswordForUser],
+	async (req, res) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.send(signinTemplate({ errors }));
+		}
+		const { email } = req.body;
+		const user = await usersRepo.getOneBy({ email });
+		req.session.userId = user.id;
+		res.send("Signed in");
 	}
-	const validPassword = await usersRepo.comparePasswords(
-		user.password,
-		password
-	);
-	if (!validPassword) {
-		return res.send("Invalid password");
-	}
-	req.session.userId = user.id;
-	res.send("Signed in");
-});
+);
 
 module.exports = router;
