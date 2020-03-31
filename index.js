@@ -6,6 +6,7 @@ const authRouter = require("./routes/admin/auth");
 const app = express();
 
 // applying middleware globally (order matters)
+app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
 	cookieSession({
