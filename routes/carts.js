@@ -1,5 +1,22 @@
-const express= require("express");
+const express = require("express");
+const cartsRepo = require("../repositories/carts");
 
 const router = express.Router();
+
+router.post("/cart/products", async (req, res) => {
+	let cart;
+	if (!req.session.cartId) {
+		// create a cart
+		cart = await cartsRepo.create({ items: [] });
+		// store the cartId on req.session.cartId
+		req.session.cartId = cart.id;
+	} else {
+		// a cart exists with this id
+		cart = await cartsRepo.getOne(req.session.cartId);
+	}
+	console.log(cart);
+
+	res.send("item added");
+});
 
 module.exports = router;
